@@ -336,8 +336,8 @@ Func GUI_Init(ByRef $preset_names, $preset_default)
 	
 	$gui_ctrlId_menu_help_intro = GUICtrlCreateMenuItem("Introduction", $gui_ctrlId_menu_help)
 	$gui_ctrlId_menu_help_basics = GUICtrlCreateMenuItem("Basics", $gui_ctrlId_menu_help)
-	$gui_ctrlId_menu_help_instr1 = GUICtrlCreateMenuItem("Instructions: first run", $gui_ctrlId_menu_help)
-	$gui_ctrlId_menu_help_instr2 = GUICtrlCreateMenuItem("Instructions: later run", $gui_ctrlId_menu_help)
+	$gui_ctrlId_menu_help_instr1 = GUICtrlCreateMenuItem("Instructions: calibrate controls", $gui_ctrlId_menu_help)
+	$gui_ctrlId_menu_help_instr2 = GUICtrlCreateMenuItem("Instructions: generate deck", $gui_ctrlId_menu_help)
 	
 	GUICtrlSetOnEvent($gui_ctrlId_menuItem_about, "GUI_OnInfo")
 	GUICtrlSetOnEvent($gui_ctrlId_menuItem_lic, "GUI_OnInfo")

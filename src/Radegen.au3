@@ -24,15 +24,10 @@ Global Const $calibration_card0_hotkey = "^!q" ; ctrl-alt-q
 Global Const $calibration_card7_hotkey = "^!w" ; ctrl-alt-w
 Global Const $calibration_button_nextPage_hotkey = "^!e" ; ctrl-alt-e
 Global Const $calibration_button_deckDone_hotkey = "^!r" ; ctrl-alt-r
-#cs
+
 Global Const $deck_build_test_hotkey = "^!z" ; ctrl-alt-z
 Global Const $deck_build_hotkey = "^!x" ; ctrl-alt-x
 Global Const $deck_build_cancel_hotkey = "^!c" ; ctrl-alt-c
-#ce
-
-Global Const $deck_build_test_hotkey = "^z" ; ctrl-z
-Global Const $deck_build_hotkey = "^x" ; ctrl-x
-Global Const $deck_build_cancel_hotkey = "^c" ; ctrl-c
 
 ;deck size variables
 Global $card_preset = ""

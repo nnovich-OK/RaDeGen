@@ -4,7 +4,17 @@
 ;TODO should I move all other GUI strings into this file?
 
 Global $RES_version = "v0.1.0.0"
-GLobal $RES_url = "http://some.git.repo.com/mine/path"
+GLobal $RES_url = "https://github.com/nnovich-OK/RaDeGen"
+
+Global $RES_calibration_card0_hotkey_string = "ctrl+alt+q"
+Global $RES_calibration_card7_hotkey_string = "ctrl+alt+w"
+Global $RES_calibration_button_nextPage_hotkey_string = "ctrl+alt+e"
+Global $RES_calibration_button_deckDone_hotkey_string = "ctrl+alt+r"
+
+Global $RES_deck_build_test_hotkey_string = "ctrl+alt+z"
+Global $RES_deck_build_hotkey_string = "ctrl+alt+x"
+Global $RES_deck_build_cancel_hotkey_string = "ctrl+alt+c"
+
 
 Global $RES_about = _
 "Random Deck Generator " & $RES_version & @CRLF & _
@@ -46,30 +56,47 @@ Global $RES_help_basics = _
 'However, there is no easy way to get any data from Hearthstone, so generator fully relies on user''s inputs. '
 
 Global $RES_help_instr1 = _
-'INSTRUCTIONS: FIRST RUN' & @CRLF & _
+'INSTRUCTIONS: CALIBRATE CONTROLS' & @CRLF & _
 @CRLF & _
-'The first run requires much more work, than subsequent one' & @CRLF & @CRLF & _
+'Procedure below typically should be done only once. ' & _
+'The purpose is to let generator know positions of Hearthstone GUI elements, so generator can click on them: ' & @CRLF & @CRLF & _
 '1. In Hearthstone open "My Collection"/"New Deck"/Any class/"Custom Deck".' & @CRLF & @CRLF & _
-'2. Choose mode (wild/standard) and/or filter cards. All shown cards are the base for random deck.' & @CRLF & @CRLF & _
-'3. Count number of 8-card-pages for class cards including the last one (may be not entirely filled). ' & _
-'Put number into generator along with number of cards on the last class page.' & @CRLF & @CRLF & _
-'4. Repeat for neutral cards. The most tedious part :( Won''t be needed on re-run' & @CRLF & @CRLF & _
-'5. Now time to point control coordinates. Hover mouse over top-left card and press ctrl+alt+q' & @CRLF & @CRLF & _
-'6. Hover mouse over bot-right card (aka 8th card on page) and press ctrl+alt+w ' & @CRLF & @CRLF & _
-'7. Hover mouse over right edge of the collection book, which turns page on click, and press ctrl+alt+e ' & @CRLF & @CRLF & _
-'8. Finally, hover mouse over "Done" button and press ctrl+alt+r' & @CRLF & @CRLF & _
-'9. Ready to go! Let''s test: open the very first page of displayed cards and hit ctrl+alt+z. '& _
-'Generator must create deck of 4 cards: first and last class card, first and last neutral card, then hit "Done"' & @CRLF & @CRLF & _
-'10. Everything fine? Clear deck, open the first page of displayed cards and hit ctrl+alt+x. Enjoy!' & _
-' If you need to stop generation for some reason, hit ctrl+alt+c'
+'2. Hover mouse over top-left card (aka 1st card on page) and press ' & $RES_calibration_card0_hotkey_string & ". " & _
+    'You should hear confirmation tone and generator GUI will indicate success in calibration section.' & @CRLF & @CRLF & _
+'3. Hover mouse over bot-right card (aka 8th card on page) and press ' & $RES_calibration_card7_hotkey_string & ". " & _
+    'Positions of other cards will be calculated automatically.' & @CRLF & @CRLF & _
+'4. Hover mouse over right edge of the collection book, which you click to turn page, and press ' & _
+    $RES_calibration_button_nextPage_hotkey_string & ". " & @CRLF & @CRLF & _
+'5.  Finally, hover mouse over "Done" button and press '  & $RES_calibration_button_deckDone_hotkey_string & ". " & @CRLF & @CRLF & _
+'As a result generator can click any card, turn page to the next one and finish deck building. ' & _
+'Repeat steps above if controls moved (e.g. changed screen resolution)'
 
 
 Global $RES_help_instr2 = _
-'INSTRUCTIONS: LATER RUN' & @CRLF & _
+'INSTRUCTIONS: GENERATE DECK' & @CRLF & _
+@CRLF & _
+'Essencially the process is this: ' & _
+'start creating new deck, provide amount of cards you are choosing from to generator ' & _
+'and hit hotkey to make everyithing done automatically. Here are details: ' & @CRLF & _
+@CRLF & _
+'1. In Hearthstone open "My Collection"/"New Deck"/Any class/"Custom Deck".' & @CRLF & @CRLF & _
+'2. Choose mode (wild/standard) and/or filter cards. All shown cards are the base for random deck.' & @CRLF & @CRLF & _
+'3. Open the last page of class cards. Put its number (shown on page footer) into generator ' & _
+    'along with number of cards on this page.' & @CRLF & @CRLF & _
+'4. Same for neutral cards: open the last page, put its number and amount of cards on it into generator' & @CRLF & _
+@CRLF & _
+'You are ready to go! Optionally make a test run to ensure everything operates well: ' & _
+'open the first page and hit ' & $RES_deck_build_test_hotkey_string & '.' & _
+'Generator will add these cards: ' & @CRLF & _
+' - 8 cards from the first class page to illustrate, that card positions are OK' & @CRLF & _
+' - last class card to show, that collection size for class cards is set correctly' & @CRLF & _
+' - first and last neutral card from last but one page, so jumping between distant cards works fine' & @CRLF & _
+' - last overall card to check, that overall collection size is configured OK' & @CRLF & _
+@CRLF & _
+'To run generator normally, open the first page of collection and hit ' & $RES_deck_build_hotkey_string &  '.' & _
+@CRLF & _
+'Any time you want to halt process, press ' & $RES_deck_build_cancel_hotkey_string &  '.' & _
 @CRLF
-;nothing changed - create new empty deck, open first page on collection and hit ctrl+alt+z
-;collection changed - hit ctrl+alt+x and check difference
-;class changed - presets
 
 
 Global $RES_license = _
