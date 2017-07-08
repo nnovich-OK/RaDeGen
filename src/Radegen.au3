@@ -30,7 +30,6 @@ Global Const $deck_build_hotkey = "^!x" ; ctrl-alt-x
 Global Const $deck_build_cancel_hotkey = "^!c" ; ctrl-alt-c
 
 ;deck size variables
-Global $card_preset = ""
 Global $card_class_page_count = 0
 Global $card_class_tail_count = 0
 Global $card_neutral_page_count = 0
@@ -59,16 +58,12 @@ RND_SeedInit($generator_seed) ;randomizer
 ;----------------------------------------------------------------------
 ; parsing config if exist, updating variables. Create config otherwise.
 ;----------------------------------------------------------------------
-FM_Init()
-
 FM_CalibrationStateLoad($calibration_card0_pos, _
 		$calibration_card7_pos, _
 		$calibration_button_nextPage_pos, _
 		$calibration_button_deckDone_pos)
 		
-$card_preset = FM_PresetDefaultGet()
-FM_CollectionStateLoad($card_preset, _
-		$card_class_page_count, _
+FM_CollectionStateLoad($card_class_page_count, _
 		$card_class_tail_count, _
 		$card_neutral_page_count, _
 		$card_neutral_tail_count)
@@ -76,11 +71,10 @@ FM_CollectionStateLoad($card_preset, _
 ;--------------------------------------------------------
 ; init GUI based on known config
 ;--------------------------------------------------------
-GUI_Init(FM_PresetNamesGet(), FM_PresetDefaultGet())
+GUI_Init()
 CollectionDisplayRefresh()
 CalibrationDisplayRefresh()
 
-GUI_PresetCbRegister("OnPresetModified")
 GUI_ClassPageCountCbRegister("OnClassPageCountModified")
 GUI_ExitCbRegister("OnExit")
 GUI_Show()
@@ -324,7 +318,6 @@ Func DeckPick($deck)
 EndFunc
 
 Func CollectionStateUpdate()
-	$card_preset = GUI_PresetGet()
 	$card_class_page_count = GUI_ClassPageCountGet()
 	$card_class_tail_count = GUI_ClassTailCountGet()
 	$card_neutral_page_count = GUI_OverallPageCountGet() - GUI_ClassPageCountGet()
@@ -332,8 +325,7 @@ Func CollectionStateUpdate()
 EndFunc
 
 Func CollectionStateSave()
-	FM_CollectionStateSave($card_preset, _
-		$card_class_page_count, _
+	FM_CollectionStateSave($card_class_page_count, _
 		$card_class_tail_count, _
 		$card_neutral_page_count, _
 		$card_neutral_tail_count)
@@ -344,45 +336,6 @@ Func CalibrationStateSave()
 		$calibration_card7_pos, _
 		$calibration_button_nextPage_pos, _
 		$calibration_button_deckDone_pos)
-EndFunc
-
-Func OnPresetModified()
-	Local $new_preset = GUI_PresetGet()
-	If $new_preset = $card_preset Then Return
-	
-	;save data for old preset before switching
-	Local $old_preset = $card_preset
-	CollectionStateUpdate()		;at this point $card_preset represents new one, other data represents old
-	FM_CollectionStateSave($old_preset, _
-		$card_class_page_count, _
-		$card_class_tail_count, _
-		$card_neutral_page_count, _
-		$card_neutral_tail_count)
-		
-	;load data for new preset
-	FM_CollectionStateLoad($card_preset, _
-		$card_class_page_count, _
-		$card_class_tail_count, _
-		$card_neutral_page_count, _
-		$card_neutral_tail_count)
-
-	CollectionDisplayRefresh()
-EndFunc
-
-; This approach is arguable, but I consider it to be more handy than ambigous
-;
-; On update for class page count, check if user modified overall page count.
-; If not, then automatically update it along with class page count, otherwise leave unaffected
-;
-; It makes switching between presets of the same mode much easier with no need to adjust overall page counter
-; Example: user played with wild pal, then switched to wild priest. Priest has two less class pages than pal,
-; while neutral cards are obviously the same. All user need to do is decrease priest page count.
-; However, if user already adjusted overall page count, it probably represents final value, so don't touch it.
-Func OnClassPageCountModified()
-	If $card_class_page_count + $card_neutral_page_count <> GUI_OverallPageCountGet() Then Return
-	
-	$card_class_page_count = GUI_ClassPageCountGet()	
-	GUI_OverallPageCountSet($card_class_page_count + $card_neutral_page_count)
 EndFunc
 
 Func OnExit()

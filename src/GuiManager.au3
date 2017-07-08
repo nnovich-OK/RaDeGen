@@ -9,7 +9,6 @@
 Global Enum $gui_ctrl_card0, $gui_ctrl_card7, $gui_ctrl_nextPage, $gui_ctrl_deckDone, $gui_ctrl_last
 Global $gui_ctrlId_calibration[$gui_ctrl_last]
 
-Global $gui_ctrlId_preset
 Global $gui_ctrlId_class_page_count
 Global $gui_ctrlId_class_tail_count[8]
 Global $gui_ctrlId_overall_page_count
@@ -75,19 +74,9 @@ Global Const $gui_group_collection_width = $gui_main_width - 2*$gui_group_margin
 
 
 ;elements start here
-Global Const $gui_group_collection_label_preset_text = "Preset: "
-Global Const $gui_group_collection_label_preset_x = $gui_group_p1_element_x
-Global Const $gui_group_collection_label_preset_y = $gui_group_collection_y + $gui_group_margin_inner_top
-
-Global Const $gui_group_collection_dropdown_preset_x = $gui_group_ctrl_x
-Global Const $gui_group_collection_dropdown_preset_y = $gui_group_collection_label_preset_y
-Global Const $gui_group_collection_dropdown_preset_width = 200
-Global Const $gui_group_collection_dropdown_preset_height = -1 ;use label height
-
-
 Global Const $gui_group_collection_label_class_cards_text = "Class cards:"
 Global Const $gui_group_collection_label_class_cards_x = $gui_group_p1_element_x
-Global Const $gui_group_collection_label_class_cards_y = $gui_group_collection_label_preset_y + $gui_group_gap_inner
+Global Const $gui_group_collection_label_class_cards_y = $gui_group_collection_y + $gui_group_margin_inner_top
 
 Global Const $gui_group_collection_label_page_count_text = "total number of pages: "
 Global Const $gui_group_collection_label_page_count_x = $gui_group_p2_element_x
@@ -182,7 +171,7 @@ Global Const $gui_main_height = $gui_group_calibration_y + $gui_group_calibratio
 ;----------------------------------------------------------------------
 ; GUI methods
 ;----------------------------------------------------------------------
-Func GUI_Init(ByRef $preset_names, $preset_default)
+Func GUI_Init()
 	Opt("GUIOnEventMode", 1) ; Change to OnEvent mode
 	
 	Local $handle_main = GUICreate("Random Deck Generator", $gui_main_width, $gui_main_height)
@@ -192,23 +181,6 @@ Func GUI_Init(ByRef $preset_names, $preset_default)
 	GUICtrlCreateGroup($gui_group_collection_title, $gui_group_collection_x, $gui_group_collection_y, _
 		$gui_group_collection_width, $gui_group_collection_height)
 		
-	GUICtrlCreateLabel($gui_group_collection_label_preset_text, _
-		$gui_group_collection_label_preset_x, _
-		$gui_group_collection_label_preset_y)
-						
-	$gui_ctrlId_preset = GUICtrlCreateCombo("", _
-		$gui_group_collection_dropdown_preset_x, _
-		$gui_group_collection_dropdown_preset_y, _
-		$gui_group_collection_dropdown_preset_width, _
-		$gui_group_collection_dropdown_preset_height, _
-		$gui_dropdown_style)
-
-	Local $preset_names_combined = ""
-	For $name In $preset_names
-		$preset_names_combined &= "|"& $name    ;it's intentionally started with "|", so current list will erase previous one during SetData
-	Next
-	GUICtrlSetData(-1, $preset_names_combined, $preset_default)
-
 	
 	GUICtrlCreateLabel($gui_group_collection_label_class_cards_text, _
 		$gui_group_collection_label_class_cards_x, _
@@ -410,21 +382,6 @@ Func GUI_OverallTailCountSet($value)
 	EndIf
 EndFunc
 
-Func GUI_PresetGet()
-	Return GUICtrlRead($gui_ctrlId_preset)
-EndFunc
-
-; SetData is tricky for combo, so caution is needed.
-; Passing non-existent element will add it into list, but won't select
-; Passing empty string will erase all elements
-Func GUI_PresetSet($preset_name)
-	GUICtrlSetData($gui_ctrlId_preset, $preset_name)
-EndFunc
-
-
-Func GUI_PresetCbRegister($cb_name)
-	GUICtrlSetOnEvent($gui_ctrlId_preset, $cb_name)
-EndFunc
 
 Func GUI_ClassPageCountCbRegister($cb_name)
 	GUICtrlSetOnEvent($gui_ctrlId_class_page_count, $cb_name)
