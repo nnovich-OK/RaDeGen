@@ -32,6 +32,8 @@ Global $gui_ctrlId_menu_help_intro
 Global $gui_ctrlId_menu_help_basics
 Global $gui_ctrlId_menu_help_instr1
 Global $gui_ctrlId_menu_help_instr2
+Global $gui_ctrlId_menu_help_limitations
+Global $gui_ctrlId_menu_help_troubles
 
 Global $gui_ctrlId_menu_settings
 
@@ -408,6 +410,8 @@ Func GUI_Init()
     $gui_ctrlId_menu_help_basics = GUICtrlCreateMenuItem("Basics", $gui_ctrlId_menu_help)
     $gui_ctrlId_menu_help_instr1 = GUICtrlCreateMenuItem("Instructions: calibrate controls", $gui_ctrlId_menu_help)
     $gui_ctrlId_menu_help_instr2 = GUICtrlCreateMenuItem("Instructions: generate deck", $gui_ctrlId_menu_help)
+    $gui_ctrlId_menu_help_limitations = GUICtrlCreateMenuItem("Limitations", $gui_ctrlId_menu_help)
+    $gui_ctrlId_menu_help_troubles = GUICtrlCreateMenuItem("Troubleshooting", $gui_ctrlId_menu_help)
     
     GUICtrlSetOnEvent($gui_ctrlId_menuItem_about, "GUI_OnInfo")
     GUICtrlSetOnEvent($gui_ctrlId_menuItem_lic, "GUI_OnInfo")
@@ -416,6 +420,8 @@ Func GUI_Init()
     GUICtrlSetOnEvent($gui_ctrlId_menu_help_basics, "GUI_OnInfo")
     GUICtrlSetOnEvent($gui_ctrlId_menu_help_instr1, "GUI_OnInfo")
     GUICtrlSetOnEvent($gui_ctrlId_menu_help_instr2, "GUI_OnInfo")
+    GUICtrlSetOnEvent($gui_ctrlId_menu_help_limitations, "GUI_OnInfo")
+    GUICtrlSetOnEvent($gui_ctrlId_menu_help_troubles, "GUI_OnInfo")
 
     ; Settings menu
     $gui_ctrlId_menu_settings = GUICtrlCreateMenuItem("Settings", -1)
@@ -506,7 +512,10 @@ Func GUI_OnInfo()
             MsgBox($MB_TASKMODAL, "Help", $RES_help_instr1)
         Case @GUI_CtrlId = $gui_ctrlId_menu_help_instr2
             MsgBox($MB_TASKMODAL, "Help", $RES_help_instr2)
-            
+        Case @GUI_CtrlId = $gui_ctrlId_menu_help_limitations
+            MsgBox($MB_TASKMODAL, "Help", $RES_help_limitations)
+        Case @GUI_CtrlId = $gui_ctrlId_menu_help_troubles
+            MsgBox($MB_TASKMODAL, "Help", $RES_help_troubles)
     EndSelect
 EndFunc
 
