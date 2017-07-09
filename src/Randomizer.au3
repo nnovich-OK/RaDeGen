@@ -48,7 +48,6 @@ Func RND_GenerateIds($class_card_chance, $class_cards_amount, $neutral_cards_amo
     
     Local $deck = $class_deck
     _ArrayConcatenate ($deck, $neutral_deck)
-    _ArrayDisplay($deck)
     
     Return $deck
 EndFunc

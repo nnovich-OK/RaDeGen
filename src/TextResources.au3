@@ -88,7 +88,7 @@ Global $RES_help_instr2 = _
 'You are ready to go! Optionally make a test run to ensure everything operates well: ' & _
 'open the first page and hit ' & $RES_deck_build_test_hotkey_string & '.' & _
 'Generator will add these cards: ' & @CRLF & _
-' - 8 cards from the first class page to illustrate, that card positions are OK' & @CRLF & _
+' - all cards from the first class page to illustrate, that card positions are OK' & @CRLF & _
 ' - last class card to show, that collection size for class cards is set correctly' & @CRLF & _
 ' - first and last neutral card from last but one page, so jumping between distant cards works fine' & @CRLF & _
 ' - last overall card to check, that overall collection size is configured OK' & @CRLF & _

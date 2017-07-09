@@ -6,6 +6,7 @@
 #include "Randomizer.au3"
 #include "GuiManager.au3"
 #include "FileManager.au3"
+#include <Math.au3>
 
 ;--------------------------------------------------------
 ; declaration of all global variables with default values
@@ -216,14 +217,36 @@ Func DeckBuild()
     Local $is_test_mode = (@HotKeyPressed == $deck_build_test_hotkey)
     Local $card_class_count = CardClassCount()
     Local $card_neutral_count = CardNeutralCount()
-    Local $deck = Null
+    Local $deck[1] = [-1]
     
     If $is_test_mode Then
-        ;TODO not first neutral, but first on page prior to last
-        If $card_class_count > 0 AND $card_neutral_count > 0 Then
-            Local $deck[4] = [0, $card_class_count-1, $card_class_count, $card_class_count + $card_neutral_count-1]
-        Else
-            Local $deck[2] = [0, $card_class_count + $card_neutral_count-1]
+        ;all cards from first page
+        Local $first_page_size = _Min(8, $card_class_count)
+        Local $test_deck_size = $first_page_size
+        Redim $deck[$test_deck_size]
+        For $i = 0 to $first_page_size-1
+            $deck[$i] = $i
+        Next
+        
+        ;last class card if not there already
+        If $card_class_count > 8 Then
+            $test_deck_size += 1;
+            Redim $deck[$test_deck_size]
+            $deck[$test_deck_size-1] = $card_class_count-1
+        EndIf
+        
+        ;last but one neutral page
+        If $card_neutral_count > 8 Then
+            $test_deck_size += 2;
+            Redim $deck[$test_deck_size]
+            $deck[$test_deck_size-2] = $card_class_count + $card_neutral_count - $card_neutral_tail_count - 8
+            $deck[$test_deck_size-1] = $card_class_count + $card_neutral_count - $card_neutral_tail_count - 1
+        EndIf
+        
+        If $card_neutral_count > 0 Then
+            $test_deck_size += 1;
+            Redim $deck[$test_deck_size]
+            $deck[$test_deck_size-1] = $card_class_count + $card_neutral_count-1
         EndIf
     Else
         $deck = RND_GenerateIds($settings_class_card_chance, $card_class_count, $card_neutral_count)
