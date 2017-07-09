@@ -12,7 +12,6 @@ EndFunc
 
 
 Func RND_GenerateIds($class_card_chance, $class_cards_amount, $neutral_cards_amount)
-    MsgBox(4096, "GUI Event", "(chance, class, neutral): " & $class_card_chance & " " & $class_cards_amount & " " & $neutral_cards_amount )
     ; Determine number of class and neutral cards in future deck
     $class_card_chance = $class_card_chance/100
     Local $class_cards_in_deck = 0
@@ -25,22 +24,15 @@ Func RND_GenerateIds($class_card_chance, $class_cards_amount, $neutral_cards_amo
         EndIf
     Next
     
-    MsgBox(4096, "GUI Event", "Amount: " & $class_cards_in_deck & " " & $neutral_cards_in_deck)
-    
+    ; if random is going to pick more cards than available, limit it
     If $class_cards_in_deck > $class_cards_amount Then
-        MsgBox($MB_TASKMODAL, "Error", "Can't create deck with " & $class_cards_in_deck & " class cards " _
-        & " out of collection with " & $class_cards_amount)
-        Return SetError(1, 0, -1)
+        $class_cards_in_deck = $class_cards_amount
+        $neutral_cards_in_deck = 30 - $class_cards_in_deck
+    ElseIf $neutral_cards_in_deck > $neutral_cards_amount Then
+        $neutral_cards_in_deck = $neutral_cards_amount
+        $class_cards_in_deck = 30 - $neutral_cards_in_deck
     EndIf
-    
-    
-    If $neutral_cards_in_deck > $neutral_cards_amount Then
-        MsgBox($MB_TASKMODAL, "Error", "Can't create deck with " & $neutral_cards_in_deck & " neutral cards " _
-        & " out of collection with " & $neutral_cards_amount)
-        Return SetError(1, 0, -1)
-    EndIf
-
-    
+   
     Local $class_deck[$class_cards_amount]
     For $i = 0 To $class_cards_amount-1
         $class_deck[$i] = $i
