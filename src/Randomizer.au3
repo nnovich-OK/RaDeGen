@@ -10,28 +10,74 @@ Func RND_SeedInit($seed)
     EndIf
 EndFunc
 
-; Param - collection representation, which is array with size equal
-;   to number of unique cards in collection. Each array item represents
-;   quantity of avaialbe cards with ID equal to item index (quantity can be 1 or 2 only)
-;   Intentionally passed by copy, modification is required
-; Return - array of 30 ascending integers with included card IDs
-Func RND_GenerateIds($collection)
-    If Not IsArray($collection) Then Return SetError(1, 0, -1)
 
-    Local $collectin_size = UBound($collection)
-    Local $deck[30]
-    Local $deck_index = 0
-    
-    While $deck_index < 30
-        Local $rnd = Random(0, $collectin_size-1, 1)
-        If $collection[$rnd] > 0 Then
-            $collection[$rnd] -= 1
-            $deck[$deck_index] = $rnd
-            $deck_index += 1
+Func RND_GenerateIds($class_card_chance, $class_cards_amount, $neutral_cards_amount)
+    MsgBox(4096, "GUI Event", "(chance, class, neutral): " & $class_card_chance & " " & $class_cards_amount & " " & $neutral_cards_amount )
+    ; Determine number of class and neutral cards in future deck
+    $class_card_chance = $class_card_chance/100
+    Local $class_cards_in_deck = 0
+    Local $neutral_cards_in_deck = 0
+    For $i = 1 to 30
+        If (Random() < $class_card_chance) Then
+            $class_cards_in_deck += 1
+        Else
+            $neutral_cards_in_deck += 1
         EndIf
-    WEnd
+    Next
     
-    _ArraySort($deck)
+    MsgBox(4096, "GUI Event", "Amount: " & $class_cards_in_deck & " " & $neutral_cards_in_deck)
+    
+    If $class_cards_in_deck > $class_cards_amount Then
+        MsgBox($MB_TASKMODAL, "Error", "Can't create deck with " & $class_cards_in_deck & " class cards " _
+        & " out of collection with " & $class_cards_amount)
+        Return SetError(1, 0, -1)
+    EndIf
+    
+    
+    If $neutral_cards_in_deck > $neutral_cards_amount Then
+        MsgBox($MB_TASKMODAL, "Error", "Can't create deck with " & $neutral_cards_in_deck & " neutral cards " _
+        & " out of collection with " & $neutral_cards_amount)
+        Return SetError(1, 0, -1)
+    EndIf
+
+    
+    Local $class_deck[$class_cards_amount]
+    For $i = 0 To $class_cards_amount-1
+        $class_deck[$i] = $i
+    Next
+    RND_RandomSelection($class_deck, $class_cards_in_deck)
+    
+    Local $neutral_deck[$neutral_cards_amount]
+    For $i = 0 To $neutral_cards_amount-1
+        $neutral_deck[$i] = $i + $class_cards_amount
+    Next
+    RND_RandomSelection($neutral_deck, $neutral_cards_in_deck)
+    
+    
+    Local $deck = $class_deck
+    _ArrayConcatenate ($deck, $neutral_deck)
+    _ArrayDisplay($deck)
     
     Return $deck
+EndFunc
+
+
+; Randomly selects specified number of elements from array by doing this:
+;  - shuffles first N positions of array using Fisher–Yates alogrithm
+;  - drops rest of array
+;  - sorts the result
+Func RND_RandomSelection(ByRef $array, $selection_size)
+    If Not IsArray($array) Then Return SetError(1, 0, -1)
+    Local $array_size = UBound($array)
+    If $array_size<$selection_size Then Return SetError(1, 0, -1)
+    
+    For $i = 0 to $selection_size-1 
+        Local $pos = Random($i, $array_size-1, 1)
+        $tmp = $array[$pos]
+        $array[$pos] = $array[$i]
+        $array[$i] = $tmp
+    Next
+    
+    Redim $array[$selection_size]
+    _ArraySort($array)
 EndFunc

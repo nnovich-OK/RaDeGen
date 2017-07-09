@@ -168,6 +168,12 @@ Func SanityCheck()
       OR $calibration_button_nextPage_pos[0] <= 0 OR $calibration_button_nextPage_pos[1] <= 0 _
       OR $calibration_button_deckDone_pos[0] <= 0 OR $calibration_button_deckDone_pos[1] <= 0 _
     Then
+        MsgBox($MB_TASKMODAL, "Error", "Calibration isn't finished")
+        Return false
+    EndIf
+    
+    If $card_neutral_page_count < 0 Then
+        MsgBox($MB_TASKMODAL, "Error", "Class pages can't be more than overall pages")
         Return false
     EndIf
     
@@ -176,12 +182,15 @@ Func SanityCheck()
     If $card_class_tail_count < 1 OR $card_class_tail_count > 8 _
       OR $card_neutral_tail_count < 1 OR $card_neutral_tail_count > 8 _
       OR $card_class_page_count <0 OR $card_neutral_page_count < 0 _
-     Then
+    Then
+        ;Should never get here, so 
+        MsgBox($MB_TASKMODAL, "Error", "Parameters are weird. Try closing app, removing config file and launching app again")
         Return false
     EndIf
     
     ;Overall number of cards must be >= 30
     If (CardClassCount() + CardNeutralCount()) < 30 Then
+        MsgBox($MB_TASKMODAL, "Error", "There is less than 30 unique cards, so can't build the deck")
         Return false
     Endif
     
@@ -217,11 +226,10 @@ Func DeckBuild()
             Local $deck[2] = [0, $card_class_count + $card_neutral_count-1]
         EndIf
     Else
-        Local $collection = CollectionGet()
-        $deck = RND_GenerateIds($collection)
+        $deck = RND_GenerateIds($settings_class_card_chance, $card_class_count, $card_neutral_count)
     EndIf
     
-    If Not IsArray($deck) Then
+    If @error <> 0 OR Not IsArray($deck) Then
         SM_NotifyFailure()
         Return SetError(1, 0, -1)
     EndIf
@@ -245,20 +253,6 @@ Func CardNeutralCount()
     EndIf
     
     Return 0
-EndFunc
-
-; Return array with length equal to total card count, filled with 1.
-; Represents possibility to include multiple cards of the same type.
-; E.g. $collection[3] = 2 means collection has two cards with ID=3
-; and they both are allowed to be included (non-legendary)
-; However, currently no support for duplicates :( 
-Func CollectionGet()
-    Local $card_total_count = CardClassCount() + CardNeutralCount()
-    Local $collection[$card_total_count]
-    For $i = 0 To $card_total_count-1
-        $collection[$i] = 1
-    Next
-    Return $collection
 EndFunc
 
 Func DeckPick($deck)

@@ -495,17 +495,17 @@ EndFunc
 Func GUI_OnInfo()
     Select
         Case @GUI_CtrlId = $gui_ctrlId_menuItem_lic
-            MsgBox($MB_OK, "License", $RES_license)
+            MsgBox($MB_TASKMODAL, "License", $RES_license)
         Case @GUI_CtrlId = $gui_ctrlId_menuItem_about
-            MsgBox($MB_OK, "About", $RES_about)
+            MsgBox($MB_TASKMODAL, "About", $RES_about)
         Case @GUI_CtrlId = $gui_ctrlId_menu_help_intro
-            MsgBox($MB_OK, "Help", $RES_help_intro)
+            MsgBox($MB_TASKMODAL, "Help", $RES_help_intro)
         Case @GUI_CtrlId = $gui_ctrlId_menu_help_basics
-            MsgBox($MB_OK, "Help", $RES_help_basics)
+            MsgBox($MB_TASKMODAL, "Help", $RES_help_basics)
         Case @GUI_CtrlId = $gui_ctrlId_menu_help_instr1
-            MsgBox($MB_OK, "Help", $RES_help_instr1)
+            MsgBox($MB_TASKMODAL, "Help", $RES_help_instr1)
         Case @GUI_CtrlId = $gui_ctrlId_menu_help_instr2
-            MsgBox($MB_OK, "Help", $RES_help_instr2)
+            MsgBox($MB_TASKMODAL, "Help", $RES_help_instr2)
             
     EndSelect
 EndFunc
