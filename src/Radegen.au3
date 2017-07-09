@@ -38,21 +38,9 @@ Global $card_neutral_tail_count = 0
 ;generation config
 Global $generator_seed = 0    ; 0 means "use time for seed"
 
-;For me: 500 works fine, 400 fine, 300 bad, 350 rarely bad
-;For Anton: 700 works fine, 500 rarely bad
-Global $mouse_click_delay = 500    
-
-;For me: 1 works fine
-;For Anton: 4 works fine, 1 is bad (missing ~4 cards)
-Global $mouse_move_speed = 1
-
-
-;----------------------------------------------------------------------
-; auxiliary modules init
-;----------------------------------------------------------------------
-AutoItSetOption("MouseClickDelay", $mouse_click_delay)
-SL_Init()                     ;hotkey scripts launcher
-RND_SeedInit($generator_seed) ;randomizer
+Global $settings_class_card_chance = 0
+Global $settings_mouse_move_slowness = 0
+Global $settings_mouse_click_delay = 0
 
 
 ;----------------------------------------------------------------------
@@ -68,6 +56,15 @@ FM_CollectionStateLoad($card_class_page_count, _
         $card_neutral_page_count, _
         $card_neutral_tail_count)
 
+SettingsApply()
+
+;----------------------------------------------------------------------
+; auxiliary modules init
+;----------------------------------------------------------------------
+SL_Init()                     ;hotkey scripts launcher
+RND_SeedInit($generator_seed) ;randomizer
+
+
 ;--------------------------------------------------------
 ; init GUI based on known config
 ;--------------------------------------------------------
@@ -75,7 +72,7 @@ GUI_Init()
 CollectionDisplayRefresh()
 CalibrationDisplayRefresh()
 
-GUI_ClassPageCountCbRegister("OnClassPageCountModified")
+GUI_SettingsCbRegister("SettingsApply")
 GUI_ExitCbRegister("OnExit")
 GUI_Show()
 
@@ -282,7 +279,7 @@ Func DeckPick($deck)
                     $calibration_button_nextPage_pos[0], _
                     $calibration_button_nextPage_pos[1], _
                     1, _
-                    $mouse_move_speed)
+                    $settings_mouse_move_slowness)
             EndIf
             $cur_page += 1
             $min_card_id = $max_card_id + 1
@@ -304,7 +301,7 @@ Func DeckPick($deck)
             $calibration_card_all_pos[$pos_index][0], _
             $calibration_card_all_pos[$pos_index][1], _
             1, _
-            $mouse_move_speed)
+            $settings_mouse_move_slowness)
     Next
     
     If SL_QueryStopFlag() Then
@@ -314,7 +311,7 @@ Func DeckPick($deck)
         $calibration_button_deckDone_pos[0], _
         $calibration_button_deckDone_pos[1], _
         1, _
-        $mouse_move_speed)
+        $settings_mouse_move_slowness)
 EndFunc
 
 Func CollectionStateUpdate()
@@ -367,4 +364,12 @@ Func CalibrationDisplayRefresh()
     If $calibration_button_deckDone_pos[0] > 0 AND $calibration_button_deckDone_pos[1] > 0 Then
         GUI_CalibrationStateChange($gui_ctrl_deckDone, true)
     EndIf
+EndFunc
+
+Func SettingsApply()
+    FM_SettingsLoad($settings_class_card_chance, _
+            $settings_mouse_move_slowness, _
+            $settings_mouse_click_delay)
+
+    AutoItSetOption("MouseClickDelay", $settings_mouse_click_delay)
 EndFunc
