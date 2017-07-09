@@ -40,7 +40,7 @@ Global $gui_ctrlId_settings_cancel
 Global $gui_ctrlId_settings_default
 
 Global $gui_ctrlId_settings_class_card_chance
-Global $gui_ctrlId_settings_mouse_speed
+Global $gui_ctrlId_settings_mouse_slowness
 Global $gui_ctrlId_settings_click_delay
 
 ;----------------------------------------------------------------------
@@ -86,7 +86,7 @@ Global Const $gui_button_width = 100
 Global Const $gui_button_margin = 25
 
 
-Global Const $gui_mouse_speed_max = 20
+Global Const $gui_mouse_slowness_max = 20
 Global Const $gui_click_delay_max = 1000 / 10
 
 
@@ -220,18 +220,18 @@ Global Const $gui_group_params_slider_class_card_chance_y = $gui_group_params_la
 Global Const $gui_group_params_slider_class_card_chance_width = $gui_slider_width
 Global Const $gui_group_params_slider_class_card_chance_height = -1 ;use label height
 
-Global Const $gui_group_params_label_mouse_speed_text = "Mouse move speed:"
-Global Const $gui_group_params_label_mouse_speed_x = $gui_group_p1_element_x
-Global Const $gui_group_params_label_mouse_speed_y = $gui_group_params_slider_class_card_chance_y + $gui_group_margin_inner_top
+Global Const $gui_group_params_label_mouse_slowness_text = "Mouse move time:"
+Global Const $gui_group_params_label_mouse_slowness_x = $gui_group_p1_element_x
+Global Const $gui_group_params_label_mouse_slowness_y = $gui_group_params_slider_class_card_chance_y + $gui_group_margin_inner_top
 
-Global Const $gui_group_params_slider_mouse_speed_x = $gui_group_ctrl_x
-Global Const $gui_group_params_slider_mouse_speed_y = $gui_group_params_label_mouse_speed_y
-Global Const $gui_group_params_slider_mouse_speed_width = $gui_slider_width
-Global Const $gui_group_params_slider_mouse_speed_height = -1 ;use label height
+Global Const $gui_group_params_slider_mouse_slowness_x = $gui_group_ctrl_x
+Global Const $gui_group_params_slider_mouse_slowness_y = $gui_group_params_label_mouse_slowness_y
+Global Const $gui_group_params_slider_mouse_slowness_width = $gui_slider_width
+Global Const $gui_group_params_slider_mouse_slowness_height = -1 ;use label height
 
 Global Const $gui_group_params_label_click_delayd_text = "Mouse click delay in 0.01s:"
 Global Const $gui_group_params_label_click_delay_x = $gui_group_p1_element_x
-Global Const $gui_group_params_label_click_delay_y = $gui_group_params_slider_mouse_speed_y + $gui_group_margin_inner_top
+Global Const $gui_group_params_label_click_delay_y = $gui_group_params_slider_mouse_slowness_y + $gui_group_margin_inner_top
 
 Global Const $gui_group_params_slider_click_delay_x = $gui_group_ctrl_x
 Global Const $gui_group_params_slider_click_delay_y = $gui_group_params_label_click_delay_y
@@ -545,19 +545,19 @@ Func GUI_OnSettings()
     
     
     ; --- Mouse speed ---
-    GUICtrlCreateLabel($gui_group_params_label_mouse_speed_text, _
-        $gui_group_params_label_mouse_speed_x, _
-        $gui_group_params_label_mouse_speed_y)
+    GUICtrlCreateLabel($gui_group_params_label_mouse_slowness_text, _
+        $gui_group_params_label_mouse_slowness_x, _
+        $gui_group_params_label_mouse_slowness_y)
     
-    $gui_ctrlId_settings_mouse_speed = GUICtrlCreateSlider( _
-        $gui_group_params_slider_mouse_speed_x, _
-        $gui_group_params_slider_mouse_speed_y, _
-        $gui_group_params_slider_mouse_speed_width, _
-        $gui_group_params_slider_mouse_speed_height, _
+    $gui_ctrlId_settings_mouse_slowness = GUICtrlCreateSlider( _
+        $gui_group_params_slider_mouse_slowness_x, _
+        $gui_group_params_slider_mouse_slowness_y, _
+        $gui_group_params_slider_mouse_slowness_width, _
+        $gui_group_params_slider_mouse_slowness_height, _
         $gui_slider_style)
     
-    GUICtrlSetLimit(-1, $gui_mouse_speed_max, 0)
-    GUICtrlSetData(-1, $gui_mouse_speed_max - $mouse_move_slowness)
+    GUICtrlSetLimit(-1, $gui_mouse_slowness_max, 0)
+    GUICtrlSetData(-1, $mouse_move_slowness)
     
     
     ; --- Mouse click delay ---
@@ -609,7 +609,7 @@ EndFunc
 
 Func GUI_UpdateSettings()
     Local $class_card_chance = GUICtrlRead($gui_ctrlId_settings_class_card_chance)
-    Local $mouse_move_slowness = $gui_mouse_speed_max - GUICtrlRead($gui_ctrlId_settings_mouse_speed)
+    Local $mouse_move_slowness = GUICtrlRead($gui_ctrlId_settings_mouse_slowness)
     Local $mouse_click_delay = GUICtrlRead($gui_ctrlId_settings_click_delay) * 10
     FM_SettingsSave($class_card_chance, $mouse_move_slowness, $mouse_click_delay)
     
@@ -630,6 +630,6 @@ Func GUI_RestoreSettings()
     FM_SettingsDefault($class_card_chance, $mouse_move_slowness, $mouse_click_delay)
     
     GUICtrlSetData($gui_ctrlId_settings_class_card_chance, $class_card_chance)
-    GUICtrlSetData($gui_ctrlId_settings_mouse_speed, $gui_mouse_speed_max - $mouse_move_slowness)
+    GUICtrlSetData($gui_ctrlId_settings_mouse_slowness, $mouse_move_slowness)
     GUICtrlSetData($gui_ctrlId_settings_click_delay, $mouse_click_delay / 10)
 EndFunc
