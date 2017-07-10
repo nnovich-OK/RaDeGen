@@ -235,7 +235,7 @@ Func DeckBuild()
             $deck[$test_deck_size-1] = $card_class_count-1
         EndIf
         
-        ;last but one neutral page
+        ;first and last card from last but one neutral page
         If $card_neutral_count > 8 Then
             $test_deck_size += 2;
             Redim $deck[$test_deck_size]
@@ -243,6 +243,7 @@ Func DeckBuild()
             $deck[$test_deck_size-1] = $card_class_count + $card_neutral_count - $card_neutral_tail_count - 1
         EndIf
         
+        ;last neutral card
         If $card_neutral_count > 0 Then
             $test_deck_size += 1;
             Redim $deck[$test_deck_size]
