@@ -15,6 +15,16 @@ Global Const $fm_class_tail_count_def = 5 ; newcomers have 5 cards for each clas
 Global Const $fm_neutral_page_count_def = 6
 Global Const $fm_neutral_tail_count_def = 3 ; newcomers have 43 neutral cards: 6 pages with 3 cards on the last one
 
+; the coefficients are not exact
+Global Const $calibration_card0_pos_x_def = 0.22*@DesktopWidth
+Global Const $calibration_card0_pos_y_def = 0.31*@DesktopHeight
+Global Const $calibration_card7_pos_x_def = 0.58*@DesktopWidth
+Global Const $calibration_card7_pos_y_def = 0.65*@DesktopHeight
+Global Const $calibration_button_nextPage_pos_x_def = 0.66*@DesktopWidth
+Global Const $calibration_button_nextPage_pos_y_def = 0.5*@DesktopHeight
+Global Const $calibration_button_deckDone_pos_x_def = 0.83*@DesktopWidth
+Global Const $calibration_button_deckDone_pos_y_def = 0.92*@DesktopHeight
+
 Global Const $fm_class_card_chance_def = 50
 
 ;For me: 500 works fine, 400 fine, 300 bad, 350 rarely bad
@@ -73,17 +83,17 @@ Func FM_CalibrationStateLoad( _
         ByRef $calibration_button_nextPage_pos, _
         ByRef $calibration_button_deckDone_pos)
 
-    $calibration_card0_pos[0] = Number(IniRead($fm_config_filename, $fm_secname_calibration, "card0_pos_x", 0))
-    $calibration_card0_pos[1] = Number(IniRead($fm_config_filename, $fm_secname_calibration, "card0_pos_y", 0))
+    $calibration_card0_pos[0] = Number(IniRead($fm_config_filename, $fm_secname_calibration, "card0_pos_x", $calibration_card0_pos_x_def))
+    $calibration_card0_pos[1] = Number(IniRead($fm_config_filename, $fm_secname_calibration, "card0_pos_y", $calibration_card0_pos_y_def))
     
-    $calibration_card7_pos[0] = Number(IniRead($fm_config_filename, $fm_secname_calibration, "card7_pos_x", 0))
-    $calibration_card7_pos[1] = Number(IniRead($fm_config_filename, $fm_secname_calibration, "card7_pos_y", 0))
+    $calibration_card7_pos[0] = Number(IniRead($fm_config_filename, $fm_secname_calibration, "card7_pos_x", $calibration_card7_pos_x_def))
+    $calibration_card7_pos[1] = Number(IniRead($fm_config_filename, $fm_secname_calibration, "card7_pos_y", $calibration_card7_pos_y_def))
     
-    $calibration_button_nextPage_pos[0] = Number(IniRead($fm_config_filename, $fm_secname_calibration, "button_nextPage_pos_x", 0))
-    $calibration_button_nextPage_pos[1] = Number(IniRead($fm_config_filename, $fm_secname_calibration, "button_nextPage_pos_y", 0))
+    $calibration_button_nextPage_pos[0] = Number(IniRead($fm_config_filename, $fm_secname_calibration, "button_nextPage_pos_x", $calibration_button_nextPage_pos_x_def))
+    $calibration_button_nextPage_pos[1] = Number(IniRead($fm_config_filename, $fm_secname_calibration, "button_nextPage_pos_y", $calibration_button_nextPage_pos_y_def))
     
-    $calibration_button_deckDone_pos[0] = Number(IniRead($fm_config_filename, $fm_secname_calibration, "button_deckDone_pos_x", 0))
-    $calibration_button_deckDone_pos[1] = Number(IniRead($fm_config_filename, $fm_secname_calibration, "button_deckDone_pos_y", 0))
+    $calibration_button_deckDone_pos[0] = Number(IniRead($fm_config_filename, $fm_secname_calibration, "button_deckDone_pos_x", $calibration_button_deckDone_pos_x_def))
+    $calibration_button_deckDone_pos[1] = Number(IniRead($fm_config_filename, $fm_secname_calibration, "button_deckDone_pos_y", $calibration_button_deckDone_pos_y_def))
 EndFunc
 
 Func FM_SettingsSave( _

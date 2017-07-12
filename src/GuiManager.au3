@@ -71,7 +71,7 @@ Global Const $gui_dropdown_style = BitOR($GUI_SS_DEFAULT_COMBO, $CBS_DROPDOWNLIS
 
 Global Const $gui_inputRO_width = 155
 Global Const $gui_inputRO_style = BitOR($GUI_SS_DEFAULT_INPUT, $ES_READONLY, $ES_CENTER)
-Global Const $gui_inputRO_text[2] = ["UNKNOWN", "CALIBRATED"]
+Global Const $gui_inputRO_text[4] = ["CTRL+ALT+q", "CTRL+ALT+w", "CTRL+ALT+e", "CTRL+ALT+r"]
 Global Const $gui_inputRO_color[2] = [0xff4040, 0x40ff40]
 
 Global Const $gui_group_p1_element_x = $gui_group_margin_outer_side + $gui_group_margin_inner_side
@@ -152,7 +152,7 @@ Global Const $gui_group_collection_height = $gui_group_collection_radio_y2 + $gu
 ;----------------------------------------------------------------------
 ; calibration group
 ;----------------------------------------------------------------------
-Global Const $gui_group_calibration_title = "Calibration"
+Global Const $gui_group_calibration_title = "Calibration (Recalibrate if HS is not fulscreen)"
 Global Const $gui_group_calibration_x = $gui_group_margin_outer_side
 Global Const $gui_group_calibration_y = $gui_group_collection_y + $gui_group_collection_height _
                                         + $gui_group_margin_outer_bot + $gui_group_margin_outer_top
@@ -365,7 +365,7 @@ Func GUI_Init()
         $gui_group_calibration_label_card7_x, _
         $gui_group_calibration_label_card7_y)
     
-    $gui_ctrlId_calibration[$gui_ctrl_card7] = GUICtrlCreateInput($gui_inputRO_text[0], _
+    $gui_ctrlId_calibration[$gui_ctrl_card7] = GUICtrlCreateInput($gui_inputRO_text[1], _
         $gui_group_calibration_input_card7_x, _
         $gui_group_calibration_input_card7_y, _
         $gui_group_calibration_input_card7_width, _
@@ -377,7 +377,7 @@ Func GUI_Init()
         $gui_group_calibration_label_nextPage_x, _
         $gui_group_calibration_label_nextPage_y)
     
-    $gui_ctrlId_calibration[$gui_ctrl_nextPage] = GUICtrlCreateInput($gui_inputRO_text[0], _
+    $gui_ctrlId_calibration[$gui_ctrl_nextPage] = GUICtrlCreateInput($gui_inputRO_text[2], _
         $gui_group_calibration_input_nextPage_x, _
         $gui_group_calibration_input_nextPage_y, _
         $gui_group_calibration_input_nextPage_width, _
@@ -389,7 +389,7 @@ Func GUI_Init()
         $gui_group_calibration_label_done_x, _
         $gui_group_calibration_label_done_y)
     
-    $gui_ctrlId_calibration[$gui_ctrl_deckDone] = GUICtrlCreateInput($gui_inputRO_text[0], _
+    $gui_ctrlId_calibration[$gui_ctrl_deckDone] = GUICtrlCreateInput($gui_inputRO_text[3], _
         $gui_group_calibration_input_done_x, _
         $gui_group_calibration_input_done_y, _
         $gui_group_calibration_input_done_width, _
@@ -434,7 +434,7 @@ EndFunc
 
 ;switches state of calibration indication controles by their enumeration
 Func GUI_CalibrationStateChange($enum_control, $state)
-    GUICtrlSetData($gui_ctrlId_calibration[$enum_control], $gui_inputRO_text[$state])
+    GUICtrlSetData($gui_ctrlId_calibration[$enum_control], $gui_inputRO_text[$enum_control])
     GUICtrlSetBkColor($gui_ctrlId_calibration[$enum_control], $gui_inputRO_color[$state])
 EndFunc
 
