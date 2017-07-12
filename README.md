@@ -1,18 +1,18 @@
 # RaDeGen
 
 ## Short description
-Random deck generator is a tool for Hearthstone video game. Intended to emulate user mouse clicks in deck generation mode in order to build deck out of random garbage. Tool is implemented for Windows OS only.
+Random deck generator is a tool for a video game Hearthstone. It emulates user mouse clicks in the deck generation mode in order to build a deck out of random garbage. The tool is implemented for Windows OS only.
 
 ## Why on earth should anyone need it
-Back in good old days, empty deck, automatically filled by Hearthstone, produced 30 pieces of unpredictable garbage to play with. And by unpredictable garbage I mean enormous fun. It used to be simple recipe of great joy: close your eyes, let weird cards form your deck and start incredible friendly challenge featuring angry chicken and magma rager.
+Back in the good old days, an empty deck, automatically filled by Hearthstone, contained 30 pieces of unpredictable garbage to play with. And by unpredictable garbage I mean enormous fun. It used to be a simple recipe of a great joy: close your eyes, let weird cards form your deck and start incredible friendly challenge featuring angry chicken and magma rager.
 
-However, nothing lasts forever. Blizzard greatly improved card picker and now automatically created decks are pretty much the same solid cards. Searching for the right feature replacement, I surprisingly discovered overcomplicated chain of different plugins. Like "install tracker, exporting collection to one site, then go to another site capable of generating random deck based on the first site API and finally import result into HS via deck tracker" with no way to conceal cards prior to play. Must admit, described solution might be OK from some perspective, but I decided to spend several days on my own minimalistic tool. Intended for personal usage, but shared in hope to be helpful :)
+However, nothing lasts forever. Blizzard greatly improved the card picker and now automatically created decks are pretty much the same solid cards. Searching for the right feature replacement, I surprisedly discovered overcomplicated chain of different plugins. Like "install tracker, exporting collection to one site, then go to another site capable of generating random deck based on the first site API and finally import result into HS via deck tracker" with no way to conceal the cards prior to play. I must admit, the described solution might be OK from some perspective, but I decided to spend several days on my own minimalistic tool. It is intended for personal usage, but shared in hope to be helpful :)
 
 ## How does it work
-RaDeGen adds cards to deck the same way user would do: by clicking some cards on collection view, turning a page when needed and hitting "done" button at the end. To do this, script must know some things like position of controls (cards and buttons) and size of collection. However, there is no easy way to get any data from Hearthstone, so generator fully relies on user's inputs. Instructions for specifying GUI elements positions and collection size are within the program.
+RaDeGen adds cards to a deck the same way the user would do: by clicking some cards on collection view, turning a page when needed and hitting "done" button at the end. To do this, the script must know some things like position of controls (cards and buttons) and size of collection. However, there is no easy way to get any data from Hearthstone, so the generator fully relies on the user's inputs. The instructions for specifying GUI elements positions and collection size are within the program.
 
 ## How do I install it?
-Copy exe to any folder, where it can create files (like config file), thats it. No installation, integration into the system, registry modification etc. If you're sceptical about random exe from internet, install [AutoIt](https://www.autoitscript.com/site/autoit/), copy source code to some folder and execute directly from  source code by double clicking Radegen.au3.
+Copy exe to any folder, where it can create files (like config file), that's it. No installation, integration into the system, registry modification etc. If you're sceptical about random exe from internet, install [AutoIt](https://www.autoitscript.com/site/autoit/), copy source code to some folder and execute directly from source code by double clicking Radegen.au3.
 
 ## Is RaDeGen against Blizzard rules?
 Nope:
