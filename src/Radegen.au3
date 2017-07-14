@@ -21,14 +21,14 @@ Global $calibration_button_nextPage_pos[2] = [0, 0]
 Global $calibration_button_deckDone_pos[2] = [0, 0]
 
 
-Global Const $calibration_card0_hotkey = "^!q" ; ctrl-alt-q
-Global Const $calibration_card7_hotkey = "^!w" ; ctrl-alt-w
-Global Const $calibration_button_nextPage_hotkey = "^!e" ; ctrl-alt-e
-Global Const $calibration_button_deckDone_hotkey = "^!r" ; ctrl-alt-r
+Global Const $calibration_card0_hotkey = "+{F5}" ; shift+F5
+Global Const $calibration_card7_hotkey = "+{F6}" ; shift+F6
+Global Const $calibration_button_nextPage_hotkey = "+{F7}" ; shift+F7
+Global Const $calibration_button_deckDone_hotkey = "+{F8}" ; shift+F8
 
-Global Const $deck_build_test_hotkey = "^!z" ; ctrl-alt-z
-Global Const $deck_build_hotkey = "^!x" ; ctrl-alt-x
-Global Const $deck_build_cancel_hotkey = "^!c" ; ctrl-alt-c
+Global Const $deck_build_test_hotkey = "+{F3}" ; shift+F3
+Global Const $deck_build_hotkey = "+{F1}" ; shift+F1
+Global Const $deck_build_cancel_hotkey = "+{F2}" ; shift+F2
 
 ;deck size variables
 Global $card_class_page_count = 0

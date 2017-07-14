@@ -69,9 +69,9 @@ Global Const $gui_inputXXX_style = BitOR($GUI_SS_DEFAULT_INPUT, $ES_NUMBER)
 
 Global Const $gui_dropdown_style = BitOR($GUI_SS_DEFAULT_COMBO, $CBS_DROPDOWNLIST)
 
-Global Const $gui_inputRO_width = 155
+Global Const $gui_inputRO_width = 225
 Global Const $gui_inputRO_style = BitOR($GUI_SS_DEFAULT_INPUT, $ES_READONLY, $ES_CENTER)
-Global Const $gui_inputRO_text[2] = ["UNKNOWN", "CALIBRATED"]
+Global       $gui_inputRO_text[$gui_ctrl_last][2]
 Global Const $gui_inputRO_color[2] = [0xff4040, 0x40ff40]
 
 Global Const $gui_group_p1_element_x = $gui_group_margin_outer_side + $gui_group_margin_inner_side
@@ -269,6 +269,8 @@ Global Const $gui_settings_height = $gui_settings_button_y + $gui_button_height 
 ; GUI methods
 ;----------------------------------------------------------------------
 Func GUI_Init()
+    GUI_CalibrationStatusTextGenerate()
+
     Opt("GUIOnEventMode", 1) ; Change to OnEvent mode
     
     $gui_handle_main = GUICreate("Random Deck Generator", $gui_main_width, $gui_main_height)
@@ -352,7 +354,7 @@ Func GUI_Init()
         $gui_group_calibration_label_card0_x, _
         $gui_group_calibration_label_card0_y)
     
-    $gui_ctrlId_calibration[$gui_ctrl_card0] = GUICtrlCreateInput($gui_inputRO_text[0], _
+    $gui_ctrlId_calibration[$gui_ctrl_card0] = GUICtrlCreateInput($gui_inputRO_text[$gui_ctrl_card0][0], _
         $gui_group_calibration_input_card0_x, _
         $gui_group_calibration_input_card0_y, _
         $gui_group_calibration_input_card0_width, _
@@ -365,7 +367,7 @@ Func GUI_Init()
         $gui_group_calibration_label_card7_x, _
         $gui_group_calibration_label_card7_y)
     
-    $gui_ctrlId_calibration[$gui_ctrl_card7] = GUICtrlCreateInput($gui_inputRO_text[0], _
+    $gui_ctrlId_calibration[$gui_ctrl_card7] = GUICtrlCreateInput($gui_inputRO_text[$gui_ctrl_card7][0], _
         $gui_group_calibration_input_card7_x, _
         $gui_group_calibration_input_card7_y, _
         $gui_group_calibration_input_card7_width, _
@@ -377,7 +379,7 @@ Func GUI_Init()
         $gui_group_calibration_label_nextPage_x, _
         $gui_group_calibration_label_nextPage_y)
     
-    $gui_ctrlId_calibration[$gui_ctrl_nextPage] = GUICtrlCreateInput($gui_inputRO_text[0], _
+    $gui_ctrlId_calibration[$gui_ctrl_nextPage] = GUICtrlCreateInput($gui_inputRO_text[$gui_ctrl_nextPage][0], _
         $gui_group_calibration_input_nextPage_x, _
         $gui_group_calibration_input_nextPage_y, _
         $gui_group_calibration_input_nextPage_width, _
@@ -389,7 +391,7 @@ Func GUI_Init()
         $gui_group_calibration_label_done_x, _
         $gui_group_calibration_label_done_y)
     
-    $gui_ctrlId_calibration[$gui_ctrl_deckDone] = GUICtrlCreateInput($gui_inputRO_text[0], _
+    $gui_ctrlId_calibration[$gui_ctrl_deckDone] = GUICtrlCreateInput($gui_inputRO_text[$gui_ctrl_deckDone][0], _
         $gui_group_calibration_input_done_x, _
         $gui_group_calibration_input_done_y, _
         $gui_group_calibration_input_done_width, _
@@ -434,7 +436,7 @@ EndFunc
 
 ;switches state of calibration indication controles by their enumeration
 Func GUI_CalibrationStateChange($enum_control, $state)
-    GUICtrlSetData($gui_ctrlId_calibration[$enum_control], $gui_inputRO_text[$state])
+    GUICtrlSetData($gui_ctrlId_calibration[$enum_control], $gui_inputRO_text[$enum_control][$state])
     GUICtrlSetBkColor($gui_ctrlId_calibration[$enum_control], $gui_inputRO_color[$state])
 EndFunc
 
@@ -641,4 +643,33 @@ Func GUI_RestoreSettings()
     GUICtrlSetData($gui_ctrlId_settings_class_card_chance, $class_card_chance)
     GUICtrlSetData($gui_ctrlId_settings_mouse_slowness, $mouse_move_slowness)
     GUICtrlSetData($gui_ctrlId_settings_click_delay, $mouse_click_delay / 10)
+EndFunc
+
+Func GUI_CalibrationStatusTextGenerate()
+    Local Const $pretext[2] = ["NULL: ", "OK: "]
+    Local Const $posttext[2] = [" to set", " to modify"]
+    Local $enum_control = $gui_ctrl_card0
+    While $enum_control <> $gui_ctrl_last
+        Local $hotkey_string = GUI_CalibrationHotkeyTextGet($enum_control)
+        For $i = 0 to 1
+            $gui_inputRO_text[$enum_control][$i] = $pretext[$i] & $hotkey_string & $posttext[$i]
+        Next
+        $enum_control += 1
+    WEnd
+    
+EndFunc
+
+Func GUI_CalibrationHotkeyTextGet($enum_control)
+    Switch $enum_control
+        Case $gui_ctrl_card0
+            Return $RES_calibration_card0_hotkey_string
+        Case $gui_ctrl_card7
+            Return $RES_calibration_card7_hotkey_string
+        Case $gui_ctrl_nextPage
+            Return $RES_calibration_button_nextPage_hotkey_string
+        Case $gui_ctrl_deckDone
+            Return $RES_calibration_button_deckDone_hotkey_string
+        Case Else
+            Return ""
+    EndSwitch
 EndFunc

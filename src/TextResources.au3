@@ -3,17 +3,17 @@
 
 ;TODO should I move all other GUI strings into this file?
 
-Global $RES_version = "v0.1.0.0"
+Global $RES_version = "v0.1.0"
 GLobal $RES_url = "https://github.com/nnovich-OK/RaDeGen"
 
-Global $RES_calibration_card0_hotkey_string = "ctrl+alt+q"
-Global $RES_calibration_card7_hotkey_string = "ctrl+alt+w"
-Global $RES_calibration_button_nextPage_hotkey_string = "ctrl+alt+e"
-Global $RES_calibration_button_deckDone_hotkey_string = "ctrl+alt+r"
+Global $RES_calibration_card0_hotkey_string = "shift+F5"
+Global $RES_calibration_card7_hotkey_string = "shift+F6"
+Global $RES_calibration_button_nextPage_hotkey_string = "shift+F7"
+Global $RES_calibration_button_deckDone_hotkey_string = "shift+F8"
 
-Global $RES_deck_build_test_hotkey_string = "ctrl+alt+z"
-Global $RES_deck_build_hotkey_string = "ctrl+alt+x"
-Global $RES_deck_build_cancel_hotkey_string = "ctrl+alt+c"
+Global $RES_deck_build_test_hotkey_string = "shift+F3"
+Global $RES_deck_build_hotkey_string = "shift+F1"
+Global $RES_deck_build_cancel_hotkey_string = "shift+F2"
 
 
 Global $RES_about = _
