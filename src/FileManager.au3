@@ -22,7 +22,7 @@ Global Const $fm_class_card_chance_def = 50
 Global Const $fm_mouse_click_delay_def = 500
 ;For me: 1 works fine
 ;For Anton: 4 works fine, 1 is bad (missing ~4 cards)
-Global Const $fm_mouse_move_slowness_def  = 2
+Global Const $fm_mouse_move_slowness_def  = 5
 
 Func FM_CollectionStateSave( _
         $class_page_count, $class_tail_count, _
