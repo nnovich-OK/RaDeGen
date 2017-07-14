@@ -198,7 +198,27 @@ Global Const $gui_group_calibration_input_done_height = -1 ;use label height
 Global Const $gui_group_calibration_height = $gui_group_calibration_input_done_y - $gui_group_calibration_y _
                                             + $gui_group_margin_inner_top 
 
-Global Const $gui_main_height = $gui_group_calibration_y + $gui_group_calibration_height + $gui_group_margin_outer_bot + $gui_menu_height
+
+;----------------------------------------------------------------------
+; reminder group
+;----------------------------------------------------------------------
+Global Const $gui_group_reminder_title = "Reminder"
+Global Const $gui_group_reminder_x = $gui_group_margin_outer_side
+Global Const $gui_group_reminder_y = $gui_group_calibration_y + $gui_group_calibration_height _
+                                   + $gui_group_margin_outer_bot + $gui_group_margin_outer_top
+Global Const $gui_group_reminder_width = $gui_main_width - 2*$gui_group_margin_outer_side
+
+Global Const $gui_group_reminder_label1_title = "START >> " & $RES_deck_build_hotkey_string _
+        & "    HALT >> " & $RES_deck_build_cancel_hotkey_string _
+        & "    TEST >> " & $RES_deck_build_test_hotkey_string
+Global Const $gui_group_reminder_label1_x = $gui_group_p1_element_x
+Global Const $gui_group_reminder_label1_y = $gui_group_reminder_y + $gui_group_margin_inner_top
+
+Global Const $gui_group_reminder_height = $gui_group_reminder_label1_y - $gui_group_reminder_y _
+                                        + $gui_group_margin_inner_top 
+
+
+Global Const $gui_main_height = $gui_group_reminder_y + $gui_group_reminder_height + $gui_group_margin_outer_bot + $gui_menu_height
 
 
 ;----------------------------------------------------------------------
@@ -277,6 +297,7 @@ Func GUI_Init()
     GUISetFont($gui_font_size)
     
     
+    ; >>> COLLECTION GROUP <<<
     GUICtrlCreateGroup($gui_group_collection_title, $gui_group_collection_x, $gui_group_collection_y, _
         $gui_group_collection_width, $gui_group_collection_height)
         
@@ -346,7 +367,8 @@ Func GUI_Init()
             -1)
     Next
 
-
+    
+    ; >>> CALIBRATION GROUP <<<
     GUICtrlCreateGroup($gui_group_calibration_title, $gui_group_calibration_x, $gui_group_calibration_y, _
         $gui_group_calibration_width, $gui_group_calibration_height)
         
@@ -400,6 +422,15 @@ Func GUI_Init()
     GUICtrlSetBkColor(-1, $gui_inputRO_color[0])
     
     
+    ; >>> REMINDER GROUP <<<
+    GUICtrlCreateGroup($gui_group_reminder_title, $gui_group_reminder_x, $gui_group_reminder_y, _
+        $gui_group_reminder_width, $gui_group_reminder_height)
+        
+    GUICtrlCreateLabel($gui_group_reminder_label1_title, _
+        $gui_group_reminder_label1_x, _
+        $gui_group_reminder_label1_y)
+    
+
     ; >>> Menu items <<<
     
     ; Info menu

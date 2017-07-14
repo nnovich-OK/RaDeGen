@@ -4,7 +4,7 @@
 ;TODO should I move all other GUI strings into this file?
 
 Global $RES_version = "v0.1.0"
-GLobal $RES_url = "https://github.com/nnovich-OK/RaDeGen"
+GLobal $RES_url = "https://github.com/nnovich-OK/RandomHsDeckGenerator"
 
 Global $RES_calibration_card0_hotkey_string = "shift+F5"
 Global $RES_calibration_card7_hotkey_string = "shift+F6"
@@ -49,7 +49,7 @@ Global $RES_help_intro = _
 Global $RES_help_basics = _
 'BASICS' & @CRLF & _
 @CRLF & _
-'RaDeGen''s main purpose is to emulate mouse clicks in deck building mode. ' & _
+'Generator''s main purpose is to emulate mouse clicks in deck building mode. ' & _
 'It adds cards to deck the same way user would do: by clicking some cards on collection view, ' & _
 'turning a page when needed and hitting "done" button at the end. ' & _
 'To do this, script must know some things like position of controls (cards and buttons) and size of collection. ' & _
@@ -110,7 +110,7 @@ Global $RES_help_limitations = _
 ' - are two card duplicates available' & @CRLF & _
 ' - was golden card of the same type already added' & @CRLF & _
 'This limitation doesn''t impy, that duplicates are eliminated completely. If you have golden and non-golden ' & _
-'versions of the same card, resulted deck may include both. As obvious drawback, generator may' & _
+'versions of the same card, resulted deck may include both. As obvious drawback, generator may ' & _
 'click on golden and non-golden versions of the same legendary, so resulted deck will miss one card.'
 
 
