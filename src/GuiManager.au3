@@ -3,6 +3,7 @@
 #include <ComboConstants.au3>
 #include <SliderConstants.au3>
 #include <WindowsConstants.au3>
+#include <ButtonConstants.au3>
 #include "TextResources.au3"
 #include "FileManager.au3"
 
@@ -44,6 +45,7 @@ Global $gui_ctrlId_settings_default
 Global $gui_ctrlId_settings_class_card_chance
 Global $gui_ctrlId_settings_mouse_slowness
 Global $gui_ctrlId_settings_click_delay
+Global $gui_ctrlId_settings_audio
 
 ;----------------------------------------------------------------------
 ; general settings
@@ -87,6 +89,11 @@ Global Const $gui_button_height = 25
 Global Const $gui_button_width = 100
 Global Const $gui_button_margin = 25
 
+;TODO: default checkbox isn't resizable actually. I might need to create cusom checkbox one day.
+;Values below define actually position of checkbox and size of virtual area to register clicks.
+Global Const $gui_checkbox_height = 20
+Global Const $gui_checkbox_width = 20
+Global Const $gui_checkbox_shift = 10
 
 Global Const $gui_mouse_slowness_max = 20
 Global Const $gui_click_delay_max = 1000 / 10
@@ -260,9 +267,22 @@ Global Const $gui_group_params_slider_click_delay_y = $gui_group_params_label_cl
 Global Const $gui_group_params_slider_click_delay_width = $gui_slider_width
 Global Const $gui_group_params_slider_click_delay_height = -1 ;use label height
 
-Global Const $gui_group_params_height = $gui_group_params_slider_click_delay_y - $gui_group_params_y _
+Global Const $gui_group_params_label_audio_text = "Sound notifications: "
+Global Const $gui_group_params_label_audio_x = $gui_group_p1_element_x
+Global Const $gui_group_params_label_audio_y = $gui_group_params_slider_click_delay_y + $gui_group_margin_inner_top
+
+Global Const $gui_group_params_checkbox_audio_x = $gui_group_ctrl_x + $gui_checkbox_shift
+Global Const $gui_group_params_checkbox_audio_y = $gui_group_params_label_audio_y
+Global Const $gui_group_params_checkbox_audio_width = $gui_checkbox_width
+Global Const $gui_group_params_checkbox_audio_height = $gui_checkbox_height
+
+
+Global Const $gui_group_params_height = $gui_group_params_label_audio_y - $gui_group_params_y _
                                             + $gui_group_margin_inner_top
-                                            
+       
+
+
+;buttons start here       
 Global Const $gui_settings_button_num = 3
 Global Const $gui_settings_button_indent = ($gui_settings_width _
         - $gui_settings_button_num * $gui_button_width _
@@ -553,8 +573,8 @@ Func GUI_OnInfo()
 EndFunc
 
 Func GUI_OnSettings()
-    Local $class_card_chance, $mouse_move_slowness, $mouse_click_delay
-    FM_SettingsLoad($class_card_chance, $mouse_move_slowness, $mouse_click_delay)
+    Local $class_card_chance, $mouse_move_slowness, $mouse_click_delay, $audio_enabled
+    FM_SettingsLoad($class_card_chance, $mouse_move_slowness, $mouse_click_delay, $audio_enabled)
 
     $gui_handle_settings = GUICreate("Settings", _
         $gui_settings_width, _
@@ -617,6 +637,21 @@ Func GUI_OnSettings()
     GUICtrlSetLimit(-1, $gui_click_delay_max, 0)
     GUICtrlSetData(-1, $mouse_click_delay/10)
     
+    
+    ; --- Sound notifications ---
+    GUICtrlCreateLabel($gui_group_params_label_audio_text, _
+        $gui_group_params_label_audio_x, _
+        $gui_group_params_label_audio_y)
+    
+    $gui_ctrlId_settings_audio = GUICtrlCreateCheckbox( _
+        "", _
+        $gui_group_params_checkbox_audio_x, _
+        $gui_group_params_checkbox_audio_y, _
+        $gui_group_params_checkbox_audio_width, _
+        $gui_group_params_checkbox_audio_height)
+    GUICtrlSetState($gui_ctrlId_settings_audio, _
+        ($audio_enabled) ? $GUI_CHECKED : $GUI_UNCHECKED)
+    
     ; --- Buttons ---
     $gui_ctrlId_settings_save = GUICtrlCreateButton( _
         $gui_settings_button_save_text, _
@@ -653,7 +688,8 @@ Func GUI_UpdateSettings()
     Local $class_card_chance = GUICtrlRead($gui_ctrlId_settings_class_card_chance)
     Local $mouse_move_slowness = GUICtrlRead($gui_ctrlId_settings_mouse_slowness)
     Local $mouse_click_delay = GUICtrlRead($gui_ctrlId_settings_click_delay) * 10
-    FM_SettingsSave($class_card_chance, $mouse_move_slowness, $mouse_click_delay)
+    Local $audio_enabled = (GUICtrlRead($gui_ctrlId_settings_audio) == $GUI_CHECKED) ? 1 : 0
+    FM_SettingsSave($class_card_chance, $mouse_move_slowness, $mouse_click_delay, $audio_enabled)
     
     If $gui_settings_cb <> Null Then
         Call($gui_settings_cb)
@@ -668,12 +704,14 @@ Func GUI_CloseSettings()
 EndFunc
 
 Func GUI_RestoreSettings()
-    Local $class_card_chance, $mouse_move_slowness, $mouse_click_delay
-    FM_SettingsDefault($class_card_chance, $mouse_move_slowness, $mouse_click_delay)
+    Local $class_card_chance, $mouse_move_slowness, $mouse_click_delay, $audio_enabled
+    FM_SettingsDefault($class_card_chance, $mouse_move_slowness, $mouse_click_delay, $audio_enabled)
     
     GUICtrlSetData($gui_ctrlId_settings_class_card_chance, $class_card_chance)
     GUICtrlSetData($gui_ctrlId_settings_mouse_slowness, $mouse_move_slowness)
     GUICtrlSetData($gui_ctrlId_settings_click_delay, $mouse_click_delay / 10)
+    GUICtrlSetState($gui_ctrlId_settings_audio, _
+        ($audio_enabled) ? $GUI_CHECKED : $GUI_UNCHECKED)
 EndFunc
 
 Func GUI_CalibrationStatusTextGenerate()

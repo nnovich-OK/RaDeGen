@@ -10,6 +10,10 @@ Global Const $fm_secname_calibration = "Calibration"
 Global Const $fm_secname_collection = "Collection"
 Global Const $fm_secname_settings = "Settings"
 
+
+;----------------------------------------------------------------------
+; deafult configuration
+;----------------------------------------------------------------------
 Global Const $fm_class_page_count_def = 1
 Global Const $fm_class_tail_count_def = 5 ; newcomers have 5 cards for each class
 Global Const $fm_neutral_page_count_def = 6
@@ -23,6 +27,8 @@ Global Const $fm_mouse_click_delay_def = 500
 ;For me: 1 works fine
 ;For Anton: 4 works fine, 1 is bad (missing ~4 cards)
 Global Const $fm_mouse_move_slowness_def  = 5
+
+Global Const $fm_audio_enabled_def = 1
 
 Func FM_CollectionStateSave( _
         $class_page_count, $class_tail_count, _
@@ -89,27 +95,33 @@ EndFunc
 Func FM_SettingsSave( _
         $settings_class_card_chance, _
         $settings_mouse_move_slowness, _
-        $settings_mouse_click_delay)
+        $settings_mouse_click_delay, _
+        $settings_audio_enabled)
     IniWrite($fm_config_filename, $fm_secname_settings, "class_card_chance", $settings_class_card_chance)
     IniWrite($fm_config_filename, $fm_secname_settings, "mouse_move_slowness", $settings_mouse_move_slowness)
     IniWrite($fm_config_filename, $fm_secname_settings, "mouse_click_delay", $settings_mouse_click_delay)
+    IniWrite($fm_config_filename, $fm_secname_settings, "audio_enabled", $settings_audio_enabled)
 EndFunc
 
 Func FM_SettingsLoad( _
         ByRef $settings_class_card_chance, _
         ByRef $settings_mouse_move_slowness, _
-        ByRef $settings_mouse_click_delay)
+        ByRef $settings_mouse_click_delay, _
+        ByRef $settings_audio_enabled)
     $settings_class_card_chance = Number(IniRead($fm_config_filename, $fm_secname_settings, "class_card_chance", $fm_class_card_chance_def))
     $settings_mouse_move_slowness = Number(IniRead($fm_config_filename, $fm_secname_settings, "mouse_move_slowness", $fm_mouse_move_slowness_def))
     $settings_mouse_click_delay = Number(IniRead($fm_config_filename, $fm_secname_settings, "mouse_click_delay", $fm_mouse_click_delay_def))
+    $settings_audio_enabled = Number(IniRead($fm_config_filename, $fm_secname_settings, "audio_enabled", $fm_audio_enabled_def))
 EndFunc
 
 
 Func FM_SettingsDefault( _
         ByRef $settings_class_card_chance, _
         ByRef $settings_mouse_move_slowness, _
-        ByRef $settings_mouse_click_delay)
+        ByRef $settings_mouse_click_delay, _
+        ByRef $settings_audio_enabled)
     $settings_class_card_chance = $fm_class_card_chance_def
     $settings_mouse_move_slowness = $fm_mouse_move_slowness_def
     $settings_mouse_click_delay = $fm_mouse_click_delay_def
+    $settings_audio_enabled = $fm_audio_enabled_def
 EndFunc

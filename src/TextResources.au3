@@ -3,7 +3,7 @@
 
 ;TODO should I move all other GUI strings into this file?
 
-Global $RES_version = "v0.1.1"
+Global $RES_version = "v0.1.3"
 GLobal $RES_url = "https://github.com/nnovich-OK/RandomHsDeckGenerator"
 
 Global $RES_calibration_card0_hotkey_string = "shift+F5"

@@ -42,6 +42,7 @@ Global $generator_seed = 0    ; 0 means "use time for seed"
 Global $settings_class_card_chance = 0
 Global $settings_mouse_move_slowness = 0
 Global $settings_mouse_click_delay = 0
+Global $settings_audio_enabled = 0
 
 
 ;----------------------------------------------------------------------
@@ -387,7 +388,9 @@ EndFunc
 Func SettingsApply()
     FM_SettingsLoad($settings_class_card_chance, _
             $settings_mouse_move_slowness, _
-            $settings_mouse_click_delay)
+            $settings_mouse_click_delay, _
+            $settings_audio_enabled)
 
     AutoItSetOption("MouseClickDelay", $settings_mouse_click_delay)
+    SM_AudioEnable($settings_audio_enabled)
 EndFunc
